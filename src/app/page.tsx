@@ -1,65 +1,104 @@
-import Image from "next/image";
+"use client"
 
-export default function Home() {
+import Link from "next/link"
+import { useEffect, useMemo, useState } from "react"
+import type { Task } from "@/types"
+import { getSession, getTasks } from "@/utils/localStorage"
+
+export default function HomePage() {
+  const [tasks, setTasks] = useState<Task[]>([])
+  const [name, setName] = useState<string | null>(null)
+
+  useEffect(() => {
+    setTasks(getTasks())
+    setName(getSession()?.name ?? null)
+  }, [])
+
+  const total = tasks.length
+  const completed = useMemo(() => tasks.filter(t => t.completed).length, [tasks])
+  const pending = total - completed
+  const progress = total === 0 ? 0 : Math.round((completed / total) * 100)
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="mx-auto w-full max-w-5xl px-4 py-10">
+      <div className="text-center">
+        <h1 className="text-4xl font-semibold tracking-tight">Smart Todo App</h1>
+        <p className="mt-2 text-[var(--color-muted)]">
+          Stay organised. Stay productive. One task at a time.
+        </p>
+
+        <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <Link
+            href="/tasks"
+            className="rounded-xl bg-[color:var(--color-primary)] px-6 py-3 font-medium text-white shadow-sm hover:bg-[color:var(--color-primary-2)]"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            Manage Tasks
+          </Link>
+          <Link
+            href={name ? "/tasks" : "/signup"}
+            className="rounded-xl border border-[var(--color-border)] bg-white px-6 py-3 font-medium text-[var(--color-fg)] shadow-sm hover:bg-[color:var(--color-surface-2)]"
           >
-            Documentation
-          </a>
+            Get Started
+          </Link>
         </div>
-      </main>
+      </div>
+
+      <div className="mt-10 grid gap-6 sm:grid-cols-3">
+        <StatCard label="Total Tasks" value={total} tone="blue" />
+        <StatCard label="Pending" value={pending} tone="amber" />
+        <StatCard label="Completed" value={completed} tone="green" />
+      </div>
+
+      <div className="mx-auto mt-8 max-w-3xl">
+        <div className="flex items-center justify-between text-sm">
+          <span className="text-[var(--color-muted)]">Progress</span>
+          <span className="text-[var(--color-fg)]">{progress}%</span>
+        </div>
+        <div className="mt-2 h-3 overflow-hidden rounded-full bg-white shadow-sm">
+          <div
+            className="h-full rounded-full bg-[color:var(--color-primary)] transition-all"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+      </div>
+
+      <div className="mt-10 grid gap-4 sm:grid-cols-2">
+        <FeatureCard title="Add Tasks Quickly" text="Type your task and press Enter. It's that simple." />
+        <FeatureCard title="Filter with Ease" text="Switch between All, Pending, and Completed views instantly." />
+        <FeatureCard title="Saved Automatically" text="All your tasks are stored in localStorage — no server needed." />
+        <FeatureCard title="Fully Responsive" text="Works beautifully on desktop, tablet, and mobile." />
+      </div>
     </div>
-  );
+  )
+}
+
+function StatCard({
+  label,
+  value,
+  tone,
+}: {
+  label: string
+  value: number
+  tone: "blue" | "amber" | "green"
+}) {
+  const tones: Record<typeof tone, string> = {
+    blue: "bg-[#eef2ff]",
+    amber: "bg-[#fff7ed]",
+    green: "bg-[#ecfdf5]",
+  }
+  return (
+    <div className={`rounded-2xl ${tones[tone]} p-6 text-center shadow-sm`}>
+      <div className="text-3xl font-semibold text-[color:var(--color-primary)]">{value}</div>
+      <div className="mt-2 text-sm text-[var(--color-muted)]">{label}</div>
+    </div>
+  )
+}
+
+function FeatureCard({ title, text }: { title: string; text: string }) {
+  return (
+    <div className="rounded-2xl bg-white p-6 shadow-sm">
+      <div className="font-medium">{title}</div>
+      <div className="mt-1 text-sm text-[var(--color-muted)]">{text}</div>
+    </div>
+  )
 }
