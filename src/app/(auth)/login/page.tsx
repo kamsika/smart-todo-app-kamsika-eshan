@@ -42,7 +42,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
       <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-[var(--shadow-card)]">
-        <h1 className="text-2xl font-semibold tracking-tight">Welcome Back</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">Welcome  Back</h1>
         <p className="mt-1 text-sm text-[var(--color-muted)]">Sign in to your Smart Todo account</p>
 
         <form onSubmit={onSubmit} className="mt-6 space-y-3">

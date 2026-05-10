@@ -30,7 +30,7 @@ export default function Header() {
     <header className="sticky top-0 z-20 border-b border-[var(--color-border)] bg-white/80 backdrop-blur">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
         <Link href="/" className="font-semibold tracking-tight">
-          Smart Todo
+           Smart Todo
         </Link>
 
         <nav className="flex items-center gap-4 text-sm">

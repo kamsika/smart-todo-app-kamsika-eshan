@@ -133,7 +133,7 @@ export default function TasksPage() {
       <div className="mt-8 space-y-3">
         {visibleTasks.length === 0 ? (
           <div className="text-center text-[var(--color-muted)]">
-            No tasks yet. Add one above!
+            No tasks yet. Add one above !
           </div>
         ) : (
           visibleTasks.map(task => (

@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Smart Todo App",
+  title: "Smart Todo App.",
   description: "Smart Todo Application with localStorage auth and tasks",
 };
 

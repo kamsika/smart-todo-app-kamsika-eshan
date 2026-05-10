@@ -62,7 +62,7 @@ export default function TaskFilterBar({
             : "text-[var(--color-muted)]"
         }`}
       >
-        Completed {badge(completedCount, filter === "completed")}
+        Completed  {badge(completedCount, filter === "completed")}
       </button>
     </div>
   )

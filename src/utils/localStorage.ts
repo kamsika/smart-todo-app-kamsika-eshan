@@ -37,6 +37,6 @@ export function saveSession(session: Session) {
   localStorage.setItem(SESSION_KEY, JSON.stringify(session))
 }
 
-export function clearSession() {
+export function clearSession()  {
   localStorage.removeItem(SESSION_KEY)
 }

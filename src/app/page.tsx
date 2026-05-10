@@ -22,7 +22,7 @@ export default function HomePage() {
   return (
     <div className="mx-auto w-full max-w-5xl px-4 py-10">
       <div className="text-center">
-        <h1 className="text-4xl font-semibold tracking-tight">Smart Todo App</h1>
+        <h1 className="text-4xl font-semibold tracking-tight"> Smart Todo App </h1>
         <p className="mt-2 text-[var(--color-muted)]">
           Stay organised. Stay productive. One task at a time.
         </p>

@@ -11,7 +11,7 @@ export default function NotFound() {
             href="/"
             className="rounded-lg bg-[color:var(--color-primary)] px-4 py-2 font-medium text-black"
           >
-            Go to Home
+            Go Home
           </Link>
           <Link
             href="/tasks"

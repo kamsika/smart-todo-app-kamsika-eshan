@@ -14,7 +14,7 @@ export interface User {
   createdAt: string
 }
 
-export interface Session {
+export interface Session  {
   email: string
   name: string
   loggedInAt: string

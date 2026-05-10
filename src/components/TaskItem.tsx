@@ -1,6 +1,6 @@
 "use client"
 
-import type { Task } from "@/types"
+import type  { Task } from "@/types"
 
 interface Props {
   task: Task
